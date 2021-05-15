@@ -1,6 +1,6 @@
 # esbuild-clean-plugin
 [![npm](https://img.shields.io/npm/v/esbuild-clean-plugin.svg)](https://www.npmjs.com/package/esbuild-clean-plugin)
-![build](https://github.com/jwilsson/esbuild-clean-plugin-node/workflows/build/badge.svg)
+[![build](https://github.com/jwilsson/esbuild-clean-plugin/actions/workflows/build.yml/badge.svg)](https://github.com/jwilsson/esbuild-clean-plugin/actions/workflows/build.yml)
 
 An [esbuild](https://esbuild.github.io/) plugin to clean your build folder.
 
