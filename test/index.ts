@@ -32,7 +32,7 @@ const runBuild = (
 
 const fixtures = ['original.js', 'original.css'];
 
-describe('esbuild-clean-plugin', () => {
+describe('esbuild-plugin-clean', () => {
     let entryDir: string;
     let outDir: string;
 

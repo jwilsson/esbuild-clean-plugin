@@ -44,7 +44,7 @@ export class CleanPlugin {
         try {
             this.removeFiles(removePatterns);
         } catch (e: unknown) {
-            console.error(`esbuild-clean-plugin: ${e}`);
+            console.error(`esbuild-plugin-clean: ${e}`);
         }
     }
 
@@ -86,7 +86,7 @@ export class CleanPlugin {
         fileNames.forEach((fileName) => {
             fileName = path.resolve(outdir, fileName);
 
-            console.log(`esbuild-clean-plugin: ${message} ${fileName}`);
+            console.log(`esbuild-plugin-clean: ${message} ${fileName}`);
         });
     }
 
@@ -95,7 +95,7 @@ export class CleanPlugin {
 
         if (!metafile) {
             console.warn(
-                'esbuild-clean-plugin: The esbuild "metafile" option was not set, please set it to true. Stopping.',
+                'esbuild-plugin-clean: The esbuild "metafile" option was not set, please set it to true. Stopping.',
             );
 
             return false;
@@ -103,7 +103,7 @@ export class CleanPlugin {
 
         if (!outdir) {
             console.warn(
-                'esbuild-clean-plugin: The esbuild "outdir" option was not set, please supply it. Stopping.',
+                'esbuild-plugin-clean: The esbuild "outdir" option was not set, please supply it. Stopping.',
             );
 
             return false;
