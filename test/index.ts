@@ -57,13 +57,13 @@ describe('esbuild-clean-plugin', () => {
             entryPoints: [path.resolve(entryDir, 'a.js')],
             outdir: outDir,
             watch: {
-                onRebuild(error, result) {
+                onRebuild(_, result) {
                     if (result?.stop) {
                         result.stop();
                     }
 
                     const fileName = path.basename(
-                        Object.keys(result?.metafile?.outputs ?? [])[0],
+                        Object.keys(result?.metafile?.outputs ?? [])[0] ?? '',
                     );
 
                     expect(filesExists(outDir, [fileName])).toBe(true);
@@ -75,7 +75,7 @@ describe('esbuild-clean-plugin', () => {
         });
 
         initialFileName = path.basename(
-            Object.keys(buildResult.metafile?.outputs ?? [])[0],
+            Object.keys(buildResult.metafile?.outputs ?? [])[0] ?? '',
         );
 
         writeFile(entryDir, 'a.js', 'const foo = true;');

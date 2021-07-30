@@ -28,6 +28,7 @@
     "@jwilsson/eslint-config-prettier": "^6.1.0",
     "@jwilsson/eslint-config-typescript": "^6.1.0",
     "@jwilsson/prettier-config": "^1.0.0",
+    "@jwilsson/tsconfig": "^1.0.0",
     "@types/jest": "^26.0.23",
     "esbuild": "^0.11.18",
     "eslint": "^7.26.0",
