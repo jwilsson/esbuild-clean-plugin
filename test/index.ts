@@ -49,10 +49,10 @@ describe('esbuild-clean-plugin', () => {
         });
     });
 
-    test('Delete stale files on each run', async (done) => {
+    test('Delete stale files on each run', (done) => {
         let initialFileName: string;
 
-        const buildResult = await runBuild({
+        runBuild({
             entryNames: '[hash]',
             entryPoints: [path.resolve(entryDir, 'a.js')],
             outdir: outDir,
@@ -72,13 +72,13 @@ describe('esbuild-clean-plugin', () => {
                     done();
                 },
             },
+        }).then((buildResult) => {
+            initialFileName = path.basename(
+                Object.keys(buildResult.metafile?.outputs ?? [])[0] ?? '',
+            );
+
+            writeFile(entryDir, 'a.js', 'const foo = true;');
         });
-
-        initialFileName = path.basename(
-            Object.keys(buildResult.metafile?.outputs ?? [])[0] ?? '',
-        );
-
-        writeFile(entryDir, 'a.js', 'const foo = true;');
     });
 
     test('Deletes files in initialCleanPatterns', async () => {
@@ -143,7 +143,7 @@ describe('esbuild-clean-plugin', () => {
 
         await runBuild({
             entryPoints: [path.resolve(entryDir, 'a.js')],
-            metafile: undefined,
+            metafile: false,
             outdir: outDir,
         });
 
@@ -158,7 +158,7 @@ describe('esbuild-clean-plugin', () => {
 
         await runBuild({
             entryPoints: [path.resolve(entryDir, 'a.js')],
-            outdir: undefined,
+            outdir: '',
         });
 
         expect(filesExists(outDir, fixtures)).toBe(true);

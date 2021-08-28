@@ -28,16 +28,16 @@
     "@jwilsson/eslint-config-prettier": "^6.1.0",
     "@jwilsson/eslint-config-typescript": "^6.1.0",
     "@jwilsson/prettier-config": "^1.0.0",
-    "@jwilsson/tsconfig": "^1.0.0",
-    "@types/jest": "^26.0.23",
-    "esbuild": "^0.11.18",
+    "@jwilsson/tsconfig": "^1.1.0",
+    "@types/jest": "^27.0.1",
+    "esbuild": "^0.12.24",
     "eslint": "^7.26.0",
-    "jest": "^26.6.3",
+    "jest": "^27.1.0",
     "prettier": "^2.3.0",
     "simple-git-hooks": "^2.4.1",
     "tempy": "^1.0.1",
-    "ts-jest": "^26.5.6",
-    "typescript": "^4.2.4"
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.2"
   },
   "peerDependencies": {
     "esbuild": "^0.11.18"

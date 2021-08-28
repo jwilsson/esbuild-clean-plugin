@@ -67,7 +67,7 @@ export class CleanPlugin {
 
         const deletedFiles = del.sync(patterns, {
             cwd: path.resolve(process.cwd(), outdir),
-            dryRun: this.pluginOptions.dry,
+            dryRun: Boolean(this.pluginOptions.dry),
         });
 
         this.printStats(deletedFiles);
