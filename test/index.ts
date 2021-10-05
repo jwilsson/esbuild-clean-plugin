@@ -133,7 +133,9 @@ describe('esbuild-clean-plugin', () => {
             },
         );
 
-        expect(consoleSpy).toHaveBeenCalled();
+        expect(consoleSpy).toHaveBeenCalledWith(
+            expect.stringMatching('esbuild-clean-plugin: removed'),
+        );
     });
 
     test("Stops if 'metafile' option isn't supplied", async () => {
@@ -148,7 +150,11 @@ describe('esbuild-clean-plugin', () => {
         });
 
         expect(filesExists(outDir, fixtures)).toBe(true);
-        expect(consoleSpy).toHaveBeenCalled();
+        expect(consoleSpy).toHaveBeenCalledWith(
+            expect.stringMatching(
+                'esbuild-clean-plugin: The esbuild "metafile" option was not set, please set it to true. Stopping.',
+            ),
+        );
     });
 
     test("Stops if 'outdir' option isn't supplied", async () => {
@@ -162,6 +168,10 @@ describe('esbuild-clean-plugin', () => {
         });
 
         expect(filesExists(outDir, fixtures)).toBe(true);
-        expect(consoleSpy).toHaveBeenCalled();
+        expect(consoleSpy).toHaveBeenCalledWith(
+            expect.stringMatching(
+                'esbuild-clean-plugin: The esbuild "outdir" option was not set, please supply it. Stopping.',
+            ),
+        );
     });
 });
