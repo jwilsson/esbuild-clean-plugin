@@ -19,7 +19,7 @@
     "lint": "eslint src test",
     "prepublishOnly": "npm run build",
     "pretest": "npm run lint",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
     "del": "^6.0.0"
@@ -74,10 +74,15 @@
   },
   "jest": {
     "collectCoverage": true,
+    "globals": {
+      "ts-jest": {
+        "useESM": true
+      }
+    },
     "moduleNameMapper": {
       "./CleanPlugin.js": "./CleanPlugin.ts"
     },
-    "preset": "ts-jest",
+    "preset": "ts-jest/presets/default-esm",
     "testEnvironment": "node",
     "testMatch": [
       "<rootDir>/test/**/*.ts"

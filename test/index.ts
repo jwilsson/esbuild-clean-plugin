@@ -1,4 +1,5 @@
 import { build, BuildOptions } from 'esbuild';
+import { jest } from '@jest/globals';
 import tempy from 'tempy';
 import path from 'path';
 import fs from 'fs';
@@ -121,7 +122,7 @@ describe('esbuild-clean-plugin', () => {
     test('Print stats in verbose mode', async () => {
         const consoleSpy = jest
             .spyOn(global.console, 'log')
-            .mockImplementation();
+            .mockImplementation(jest.fn());
 
         await runBuild(
             {
@@ -141,7 +142,7 @@ describe('esbuild-clean-plugin', () => {
     test("Stops if 'metafile' option isn't supplied", async () => {
         const consoleSpy = jest
             .spyOn(global.console, 'warn')
-            .mockImplementation();
+            .mockImplementation(jest.fn());
 
         await runBuild({
             entryPoints: [path.resolve(entryDir, 'a.js')],
@@ -160,7 +161,7 @@ describe('esbuild-clean-plugin', () => {
     test("Stops if 'outdir' option isn't supplied", async () => {
         const consoleSpy = jest
             .spyOn(global.console, 'warn')
-            .mockImplementation();
+            .mockImplementation(jest.fn());
 
         await runBuild({
             entryPoints: [path.resolve(entryDir, 'a.js')],
