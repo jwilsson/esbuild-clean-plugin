@@ -16,7 +16,7 @@ npm install esbuild-clean-plugin
 ## Usage
 ```js
 import { build } from 'esbuild';
-import { cleanPlugin } from 'esbuild-plugin-clean';
+import { cleanPlugin } from 'esbuild-clean-plugin';
 
 build({
   bundle: true,
