@@ -27,20 +27,20 @@
   "devDependencies": {
     "@jwilsson/eslint-config-prettier": "^7.1.0",
     "@jwilsson/eslint-config-typescript": "^7.1.0",
-    "@jwilsson/prettier-config": "^1.0.0",
+    "@jwilsson/prettier-config": "^7.2.0",
     "@jwilsson/tsconfig": "^1.1.0",
     "@types/jest": "^27.0.1",
-    "esbuild": "^0.12.24",
+    "esbuild": "^0.14.0",
     "eslint": "^8.1.0",
     "jest": "^27.1.0",
     "prettier": "^2.3.0",
     "simple-git-hooks": "^2.4.1",
-    "tempy": "^1.0.1",
+    "tempy": "^2.0.0",
     "ts-jest": "^27.0.5",
-    "typescript": "^4.4.2"
+    "typescript": "^4.5.2"
   },
   "peerDependencies": {
-    "esbuild": "^0.11.18"
+    "esbuild": ">=0.11.18"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
