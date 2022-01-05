@@ -1,6 +1,6 @@
-import { BuildOptions, BuildResult } from 'esbuild';
-import path from 'path';
 import del from 'del';
+import { BuildOptions, BuildResult } from 'esbuild';
+import path from 'node:path';
 
 export interface PluginOptions {
     dry?: boolean;
