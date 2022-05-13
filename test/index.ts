@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 import { build, type BuildOptions, type BuildResult } from 'esbuild';
 import fs from 'fs';
 import path from 'path';
-import tempy from 'tempy';
+import { temporaryDirectory } from 'tempy';
 import { cleanPlugin, type PluginOptions } from '../src';
 
 const filesExists = (filePath: string, fileNames: string[]): boolean => {
@@ -39,8 +39,8 @@ describe('esbuild-clean-plugin', () => {
     beforeEach(() => {
         jest.resetAllMocks();
 
-        entryDir = tempy.directory();
-        outDir = tempy.directory();
+        entryDir = temporaryDirectory();
+        outDir = temporaryDirectory();
 
         writeFile(entryDir, 'a.js');
 
