@@ -1,12 +1,11 @@
-import { build, BuildOptions } from 'esbuild';
 import { jest } from '@jest/globals';
-import tempy from 'tempy';
-import path from 'path';
+import { build, type BuildOptions, type BuildResult } from 'esbuild';
 import fs from 'fs';
+import path from 'path';
+import tempy from 'tempy';
+import { cleanPlugin, type PluginOptions } from '../src';
 
-import { cleanPlugin, PluginOptions } from '../src';
-
-const filesExists = (filePath: string, fileNames: string[]) => {
+const filesExists = (filePath: string, fileNames: string[]): boolean => {
     return fileNames.every((fileName) => {
         fileName = path.resolve(filePath, fileName);
 
@@ -14,7 +13,7 @@ const filesExists = (filePath: string, fileNames: string[]) => {
     });
 };
 
-const writeFile = (filePath: string, fileName: string, data = '') => {
+const writeFile = (filePath: string, fileName: string, data = ''): void => {
     fileName = path.resolve(filePath, fileName);
 
     fs.writeFileSync(fileName, data);
@@ -23,7 +22,7 @@ const writeFile = (filePath: string, fileName: string, data = '') => {
 const runBuild = (
     buildOptions: BuildOptions = {},
     pluginOptions?: PluginOptions,
-) => {
+): Promise<BuildResult> => {
     return build({
         metafile: true,
         plugins: [cleanPlugin(pluginOptions)],

@@ -1,12 +1,12 @@
 import del from 'del';
-import { BuildOptions, BuildResult } from 'esbuild';
+import { type BuildOptions, type BuildResult } from 'esbuild';
 import path from 'node:path';
 
-export interface PluginOptions {
+export type PluginOptions = {
     dry?: boolean;
     initialCleanPatterns?: string[];
     verbose?: boolean;
-}
+};
 
 export class CleanPlugin {
     private previousAssets: string[] = [];

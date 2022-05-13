@@ -1,13 +1,12 @@
-import { Plugin } from 'esbuild';
+import { type Plugin } from 'esbuild';
+import { CleanPlugin, type PluginOptions } from './CleanPlugin.js';
 
-import { CleanPlugin, PluginOptions } from './CleanPlugin.js';
-
-export { PluginOptions } from './CleanPlugin.js';
+export { type PluginOptions } from './CleanPlugin.js';
 
 export const cleanPlugin = (pluginOptions: PluginOptions = {}): Plugin => {
     return {
         name: 'clean',
-        setup(build) {
+        setup(build): void {
             const plugin = new CleanPlugin(pluginOptions, build.initialOptions);
 
             if (plugin.validateOptions()) {
