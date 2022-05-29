@@ -1,5 +1,5 @@
 import del from 'del';
-import { type BuildOptions, type BuildResult } from 'esbuild';
+import type { BuildOptions, BuildResult } from 'esbuild';
 import path from 'node:path';
 
 export type PluginOptions = {

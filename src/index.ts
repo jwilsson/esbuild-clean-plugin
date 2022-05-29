@@ -1,4 +1,4 @@
-import { type Plugin } from 'esbuild';
+import type { Plugin } from 'esbuild';
 import { CleanPlugin, type PluginOptions } from './CleanPlugin.js';
 
 export { type PluginOptions } from './CleanPlugin.js';
