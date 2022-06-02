@@ -32,7 +32,7 @@
     "@jwilsson/eslint-config-typescript": "^7.1.0",
     "@jwilsson/prettier-config": "^7.2.0",
     "@jwilsson/tsconfig": "^1.3.0",
-    "@types/jest": "^27.5.2",
+    "@types/jest": "^28.1.0",
     "esbuild": "^0.14.0",
     "eslint": "^8.1.0",
     "jest": "^28.1.0",
