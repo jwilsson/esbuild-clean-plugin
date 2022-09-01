@@ -1,4 +1,4 @@
-import del from 'del';
+import { deleteSync } from 'del';
 import type { BuildOptions, BuildResult } from 'esbuild';
 import path from 'node:path';
 
@@ -65,7 +65,7 @@ export class CleanPlugin {
             return;
         }
 
-        const deletedFiles = del.sync(patterns, {
+        const deletedFiles = deleteSync(patterns, {
             cwd: path.resolve(process.cwd(), outdir),
             dryRun: Boolean(this.pluginOptions.dry),
         });
