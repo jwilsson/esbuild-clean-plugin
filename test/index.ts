@@ -72,13 +72,17 @@ describe('esbuild-clean-plugin', () => {
                     done();
                 },
             },
-        }).then((buildResult) => {
-            initialFileName = path.basename(
-                Object.keys(buildResult.metafile?.outputs ?? [])[0] ?? '',
-            );
+        })
+            .then((buildResult) => {
+                initialFileName = path.basename(
+                    Object.keys(buildResult.metafile?.outputs ?? [])[0] ?? '',
+                );
 
-            writeFile(entryDir, 'a.js', 'const foo = true;');
-        });
+                writeFile(entryDir, 'a.js', 'const foo = true;');
+            })
+            .catch(() => {
+                done.fail();
+            });
     });
 
     test('Deletes files in initialCleanPatterns', async () => {

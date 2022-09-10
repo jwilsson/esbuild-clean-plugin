@@ -43,8 +43,10 @@ export class CleanPlugin {
 
         try {
             this.removeFiles(removePatterns);
-        } catch (e: unknown) {
-            console.error(`esbuild-clean-plugin: ${e}`);
+        } catch (e) {
+            const message = e instanceof Error ? e.message : 'unknown error';
+
+            console.error(`esbuild-clean-plugin: ${message}`);
         }
     }
 
