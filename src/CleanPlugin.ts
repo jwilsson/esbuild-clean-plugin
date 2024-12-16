@@ -1,5 +1,5 @@
 import { deleteSync } from 'del';
-import type { BuildOptions, BuildResult } from 'esbuild';
+import { BuildOptions, BuildResult } from 'esbuild';
 import path from 'node:path';
 
 export type PluginOptions = {
@@ -11,10 +11,7 @@ export type PluginOptions = {
 export class CleanPlugin {
     private previousAssets: string[] = [];
 
-    public constructor(
-        private pluginOptions: PluginOptions,
-        private buildOptions: BuildOptions,
-    ) {
+    public constructor(private pluginOptions: PluginOptions, private buildOptions: BuildOptions) {
         this.pluginOptions = {
             dry: false,
             initialCleanPatterns: ['**/*'],
@@ -104,9 +101,7 @@ export class CleanPlugin {
         }
 
         if (!outdir) {
-            console.warn(
-                'esbuild-clean-plugin: The esbuild "outdir" option was not set, please supply it. Stopping.',
-            );
+            console.warn('esbuild-clean-plugin: The esbuild "outdir" option was not set, please supply it. Stopping.');
 
             return false;
         }

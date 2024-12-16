@@ -1,9 +1,9 @@
 import { jest } from '@jest/globals';
-import { build, type BuildOptions, type BuildResult } from 'esbuild';
+import { build, BuildOptions, BuildResult } from 'esbuild';
 import fs from 'fs';
 import path from 'path';
 import { temporaryDirectory } from 'tempy';
-import { cleanPlugin, type PluginOptions } from '../src';
+import { cleanPlugin, PluginOptions } from '../src';
 
 const filesExists = (filePath: string, fileNames: string[]): boolean => {
     return fileNames.every((fileName) => {
@@ -19,10 +19,7 @@ const writeFile = (filePath: string, fileName: string, data = ''): void => {
     fs.writeFileSync(fileName, data);
 };
 
-const runBuild = (
-    buildOptions: BuildOptions = {},
-    pluginOptions?: PluginOptions,
-): Promise<BuildResult> => {
+const runBuild = (buildOptions: BuildOptions = {}, pluginOptions?: PluginOptions): Promise<BuildResult> => {
     return build({
         metafile: true,
         plugins: [cleanPlugin(pluginOptions)],
@@ -62,9 +59,7 @@ describe('esbuild-clean-plugin', () => {
                         result.stop();
                     }
 
-                    const fileName = path.basename(
-                        Object.keys(result?.metafile?.outputs ?? [])[0] ?? '',
-                    );
+                    const fileName = path.basename(Object.keys(result?.metafile?.outputs ?? [])[0] ?? '');
 
                     expect(filesExists(outDir, [fileName])).toBe(true);
                     expect(filesExists(outDir, [initialFileName])).toBe(false);
@@ -74,9 +69,7 @@ describe('esbuild-clean-plugin', () => {
             },
         })
             .then((buildResult) => {
-                initialFileName = path.basename(
-                    Object.keys(buildResult.metafile?.outputs ?? [])[0] ?? '',
-                );
+                initialFileName = path.basename(Object.keys(buildResult.metafile?.outputs ?? [])[0] ?? '');
 
                 writeFile(entryDir, 'a.js', 'const foo = true;');
             })
@@ -123,9 +116,7 @@ describe('esbuild-clean-plugin', () => {
     });
 
     test('Print stats in verbose mode', async () => {
-        const consoleSpy = jest
-            .spyOn(global.console, 'log')
-            .mockImplementation(jest.fn());
+        const consoleSpy = jest.spyOn(global.console, 'log').mockImplementation(jest.fn());
 
         await runBuild(
             {
@@ -137,15 +128,11 @@ describe('esbuild-clean-plugin', () => {
             },
         );
 
-        expect(consoleSpy).toHaveBeenCalledWith(
-            expect.stringMatching('esbuild-clean-plugin: removed'),
-        );
+        expect(consoleSpy).toHaveBeenCalledWith(expect.stringMatching('esbuild-clean-plugin: removed'));
     });
 
     test("Stops if 'metafile' option isn't supplied", async () => {
-        const consoleSpy = jest
-            .spyOn(global.console, 'warn')
-            .mockImplementation(jest.fn());
+        const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation(jest.fn());
 
         await runBuild({
             entryPoints: [path.resolve(entryDir, 'a.js')],
@@ -162,9 +149,7 @@ describe('esbuild-clean-plugin', () => {
     });
 
     test("Stops if 'outdir' option isn't supplied", async () => {
-        const consoleSpy = jest
-            .spyOn(global.console, 'warn')
-            .mockImplementation(jest.fn());
+        const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation(jest.fn());
 
         await runBuild({
             entryPoints: [path.resolve(entryDir, 'a.js')],
