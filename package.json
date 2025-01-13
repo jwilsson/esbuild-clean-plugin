@@ -22,7 +22,7 @@
         "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
     },
     "engines": {
-        "node": ">=14.15.0"
+        "node": ">=20.9.0"
     },
     "dependencies": {
         "del": "^7.0.0"

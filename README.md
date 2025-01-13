@@ -10,7 +10,7 @@ npm install esbuild-clean-plugin
 ```
 
 ### Requirements
-* Node 14.15.0 (LTS) or later.
+* Node 20.9.0 (LTS) or later.
 * esbuild 0.11.18 or later.
 
 ## Usage
