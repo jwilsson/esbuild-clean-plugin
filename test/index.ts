@@ -1,9 +1,11 @@
 import { jest } from '@jest/globals';
-import { build, BuildOptions, BuildResult } from 'esbuild';
+import * as esbuild from 'esbuild';
 import fs from 'fs';
 import path from 'path';
 import { temporaryDirectory } from 'tempy';
-import { cleanPlugin, PluginOptions } from '../src';
+import { cleanPlugin, PluginOptions } from '../src/index.ts';
+
+const getOutputFiles = (filePath: string): string[] => fs.readdirSync(filePath);
 
 const filesExists = (filePath: string, fileNames: string[]): boolean =>
     fileNames.every((fileName) => {
@@ -18,8 +20,11 @@ const writeFile = (filePath: string, fileName: string, data = ''): void => {
     fs.writeFileSync(fileName, data);
 };
 
-const runBuild = (buildOptions: BuildOptions = {}, pluginOptions?: PluginOptions): Promise<BuildResult> =>
-    build({
+const setupContext = (
+    buildOptions: esbuild.BuildOptions = {},
+    pluginOptions?: PluginOptions,
+): Promise<esbuild.BuildContext> =>
+    esbuild.context({
         metafile: true,
         plugins: [cleanPlugin(pluginOptions)],
         ...buildOptions,
@@ -28,6 +33,7 @@ const runBuild = (buildOptions: BuildOptions = {}, pluginOptions?: PluginOptions
 const fixtures = ['original.js', 'original.css'];
 
 describe('esbuild-clean-plugin', () => {
+    let context: esbuild.BuildContext;
     let entryDir: string;
     let outDir: string;
 
@@ -44,49 +50,45 @@ describe('esbuild-clean-plugin', () => {
         });
     });
 
-    test('Delete stale files on each run', (done) => {
-        let initialFileName: string;
+    afterEach(async () => {
+        await context.dispose();
+    });
 
-        runBuild({
+    test('Deletes stale files on each run', async () => {
+        context = await setupContext({
             entryNames: '[hash]',
             entryPoints: [path.resolve(entryDir, 'a.js')],
             outdir: outDir,
-            watch: {
-                onRebuild(_, result) {
-                    if (result?.stop) {
-                        result.stop();
-                    }
+        });
 
-                    const fileName = path.basename(Object.keys(result?.metafile?.outputs ?? [])[0] ?? '');
+        writeFile(entryDir, 'a.js', 'const foo = true;');
 
-                    expect(filesExists(outDir, [fileName])).toBe(true);
-                    expect(filesExists(outDir, [initialFileName])).toBe(false);
+        const buildResult = await context.rebuild();
+        const initialFileName = path.basename(Object.keys(buildResult.metafile?.outputs ?? [])[0] ?? '');
 
-                    done();
-                },
-            },
-        })
-            .then((buildResult) => {
-                initialFileName = path.basename(Object.keys(buildResult.metafile?.outputs ?? [])[0] ?? '');
+        await context.watch();
 
-                writeFile(entryDir, 'a.js', 'const foo = true;');
-            })
-            .catch(() => {
-                done.fail();
-            });
+        writeFile(entryDir, 'a.js', 'const foo = false;');
+
+        await context.dispose();
+
+        expect(getOutputFiles(outDir).length).toBe(1);
+        expect(filesExists(outDir, [initialFileName])).toBe(false);
     });
 
     test('Deletes files in initialCleanPatterns', async () => {
-        await runBuild({
+        context = await setupContext({
             entryPoints: [path.resolve(entryDir, 'a.js')],
             outdir: outDir,
         });
+
+        await context.rebuild();
 
         expect(filesExists(outDir, fixtures)).toBe(false);
     });
 
     test("Doesn't delete anything if initialCleanPatterns is empty", async () => {
-        await runBuild(
+        context = await setupContext(
             {
                 entryPoints: [path.resolve(entryDir, 'a.js')],
                 outdir: outDir,
@@ -96,11 +98,13 @@ describe('esbuild-clean-plugin', () => {
             },
         );
 
+        await context.rebuild();
+
         expect(filesExists(outDir, fixtures)).toBe(true);
     });
 
     test("Doesn't delete files in dry mode", async () => {
-        await runBuild(
+        context = await setupContext(
             {
                 entryPoints: [path.resolve(entryDir, 'a.js')],
                 outdir: outDir,
@@ -110,13 +114,15 @@ describe('esbuild-clean-plugin', () => {
             },
         );
 
+        await context.rebuild();
+
         expect(filesExists(outDir, fixtures)).toBe(true);
     });
 
     test('Print stats in verbose mode', async () => {
         const consoleSpy = jest.spyOn(global.console, 'log').mockImplementation(jest.fn());
 
-        await runBuild(
+        context = await setupContext(
             {
                 entryPoints: [path.resolve(entryDir, 'a.js')],
                 outdir: outDir,
@@ -126,17 +132,21 @@ describe('esbuild-clean-plugin', () => {
             },
         );
 
+        await context.rebuild();
+
         expect(consoleSpy).toHaveBeenCalledWith(expect.stringMatching('esbuild-clean-plugin: removed'));
     });
 
     test("Stops if 'metafile' option isn't supplied", async () => {
         const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation(jest.fn());
 
-        await runBuild({
+        context = await setupContext({
             entryPoints: [path.resolve(entryDir, 'a.js')],
             metafile: false,
             outdir: outDir,
         });
+
+        await context.rebuild();
 
         expect(filesExists(outDir, fixtures)).toBe(true);
         expect(consoleSpy).toHaveBeenCalledWith(
@@ -149,10 +159,12 @@ describe('esbuild-clean-plugin', () => {
     test("Stops if 'outdir' option isn't supplied", async () => {
         const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation(jest.fn());
 
-        await runBuild({
+        context = await setupContext({
             entryPoints: [path.resolve(entryDir, 'a.js')],
             outdir: '',
         });
+
+        await context.rebuild();
 
         expect(filesExists(outDir, fixtures)).toBe(true);
         expect(consoleSpy).toHaveBeenCalledWith(
