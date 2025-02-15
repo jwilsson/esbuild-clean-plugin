@@ -44,12 +44,5 @@
     "peerDependencies": {
         "esbuild": ">=0.18.20"
     },
-    "simple-git-hooks": {
-        "pre-commit": "npx lint-staged"
-    },
-    "lint-staged": {
-        "*.ts": "prettier --write src test"
-    },
-    "prettier": "@jwilsson/prettier-config",
     "license": "MIT"
 }
