@@ -11,23 +11,25 @@ npm install esbuild-clean-plugin
 
 ### Requirements
 * Node 20.9.0 (LTS) or later.
-* esbuild 0.11.18 or later.
+* esbuild 0.18.20 or later.
 
 ## Usage
 ```js
-import { build } from 'esbuild';
+import * as esbuild from 'esbuild';
 import { cleanPlugin } from 'esbuild-clean-plugin';
+import path from 'path';
 
-build({
+const context = await esbuild.context({
   bundle: true,
-  entryPoints: [path.resolve(__dirname, 'index.js')],
+  entryPoints: [path.resolve(import.meta.dirname, 'index.js')],
   metafile: true,
-  outdir: path.resolve(__dirname, 'dist'),
-  watch: true,
+  outdir: path.resolve(import.meta.dirname, 'dist'),
   plugins: [cleanPlugin({
       // Plugin options
   })],
 });
+
+await context.watch();
 ```
 
 *Note: The `metafile` and `outdir` options must be set for the plugin to have any effect.*
