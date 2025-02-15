@@ -30,7 +30,7 @@
     "devDependencies": {
         "@jwilsson/eslint-config": "^9.0.0",
         "@jwilsson/prettier-config": "^9.0.0",
-        "@jwilsson/tsconfig": "^1.3.0",
+        "@jwilsson/tsconfig": "^3.0.0",
         "@types/jest": "^29.2.1",
         "esbuild": "^0.25.0",
         "eslint": "^9.17.0",
@@ -39,7 +39,7 @@
         "simple-git-hooks": "^2.4.1",
         "tempy": "^3.0.0",
         "ts-jest": "^29.0.3",
-        "typescript": "^4.5.2"
+        "typescript": "^5.7.2"
     },
     "peerDependencies": {
         "esbuild": ">=0.18.20"
