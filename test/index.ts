@@ -5,8 +5,6 @@ import path from 'path';
 import { temporaryDirectory } from 'tempy';
 import { cleanPlugin, PluginOptions } from '../src/index.ts';
 
-const getOutputFiles = (filePath: string): string[] => fs.readdirSync(filePath);
-
 const filesExists = (filePath: string, fileNames: string[]): boolean =>
     fileNames.every((fileName) => {
         fileName = path.resolve(filePath, fileName);
@@ -30,27 +28,27 @@ const setupContext = (
         ...buildOptions,
     });
 
-const fixtures = ['original.js', 'original.css'];
-
 describe('esbuild-clean-plugin', () => {
+    const FIXTURES = ['original.js', 'original.css'];
+
     let context: esbuild.BuildContext;
     let entryDir: string;
     let outDir: string;
 
     beforeEach(() => {
-        jest.resetAllMocks();
-
         entryDir = temporaryDirectory();
         outDir = temporaryDirectory();
 
-        writeFile(entryDir, 'a.js');
+        writeFile(entryDir, 'a.js', 'const foo = true;');
 
-        fixtures.forEach((fixture) => {
+        FIXTURES.forEach((fixture) => {
             writeFile(outDir, fixture);
         });
     });
 
     afterEach(async () => {
+        jest.resetAllMocks();
+
         await context.dispose();
     });
 
@@ -61,8 +59,6 @@ describe('esbuild-clean-plugin', () => {
             outdir: outDir,
         });
 
-        writeFile(entryDir, 'a.js', 'const foo = true;');
-
         const buildResult = await context.rebuild();
         const initialFileName = path.basename(Object.keys(buildResult.metafile?.outputs ?? [])[0] ?? '');
 
@@ -72,7 +68,7 @@ describe('esbuild-clean-plugin', () => {
 
         await context.dispose();
 
-        expect(getOutputFiles(outDir).length).toBe(1);
+        expect(fs.readdirSync(outDir).length).toBe(1);
         expect(filesExists(outDir, [initialFileName])).toBe(false);
     });
 
@@ -84,7 +80,7 @@ describe('esbuild-clean-plugin', () => {
 
         await context.rebuild();
 
-        expect(filesExists(outDir, fixtures)).toBe(false);
+        expect(filesExists(outDir, FIXTURES)).toBe(false);
     });
 
     test("Doesn't delete anything if initialCleanPatterns is empty", async () => {
@@ -100,7 +96,7 @@ describe('esbuild-clean-plugin', () => {
 
         await context.rebuild();
 
-        expect(filesExists(outDir, fixtures)).toBe(true);
+        expect(filesExists(outDir, FIXTURES)).toBe(true);
     });
 
     test("Doesn't delete files in dry mode", async () => {
@@ -116,7 +112,7 @@ describe('esbuild-clean-plugin', () => {
 
         await context.rebuild();
 
-        expect(filesExists(outDir, fixtures)).toBe(true);
+        expect(filesExists(outDir, FIXTURES)).toBe(true);
     });
 
     test('Print stats in verbose mode', async () => {
@@ -148,7 +144,7 @@ describe('esbuild-clean-plugin', () => {
 
         await context.rebuild();
 
-        expect(filesExists(outDir, fixtures)).toBe(true);
+        expect(filesExists(outDir, FIXTURES)).toBe(true);
         expect(consoleSpy).toHaveBeenCalledWith(
             expect.stringMatching(
                 'esbuild-clean-plugin: The esbuild "metafile" option was not set, please set it to true. Stopping.',
@@ -166,7 +162,7 @@ describe('esbuild-clean-plugin', () => {
 
         await context.rebuild();
 
-        expect(filesExists(outDir, fixtures)).toBe(true);
+        expect(filesExists(outDir, FIXTURES)).toBe(true);
         expect(consoleSpy).toHaveBeenCalledWith(
             expect.stringMatching(
                 'esbuild-clean-plugin: The esbuild "outdir" option was not set, please supply it. Stopping.',
