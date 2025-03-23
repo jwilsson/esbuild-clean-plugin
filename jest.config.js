@@ -9,6 +9,7 @@ export default {
     collectCoverage: true,
     moduleNameMapper: {
         './CleanPlugin.js': './CleanPlugin.ts',
+        './plugin.js': './plugin.ts',
     },
     testEnvironment: 'node',
     testMatch: ['<rootDir>/test/**/*.ts'],

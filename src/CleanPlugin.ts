@@ -1,12 +1,7 @@
 import { deleteSync } from 'del';
 import { BuildOptions, BuildResult } from 'esbuild';
 import path from 'node:path';
-
-export type PluginOptions = {
-    dry?: boolean;
-    initialCleanPatterns?: string[];
-    verbose?: boolean;
-};
+import { PluginOptions } from './PluginOptions.js';
 
 export class CleanPlugin {
     private previousAssets: string[] = [];
