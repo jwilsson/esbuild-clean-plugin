@@ -4,12 +4,12 @@ import path from 'node:path';
 import { PluginOptions } from './PluginOptions.js';
 
 export class CleanPlugin {
+    private buildOptions: BuildOptions = {};
+    private pluginOptions: PluginOptions = {};
     private previousAssets: string[] = [];
 
-    public constructor(
-        private pluginOptions: PluginOptions,
-        private buildOptions: BuildOptions,
-    ) {
+    public constructor(pluginOptions: PluginOptions, buildOptions: BuildOptions) {
+        this.buildOptions = buildOptions;
         this.pluginOptions = {
             dry: false,
             initialCleanPatterns: ['**/*'],
