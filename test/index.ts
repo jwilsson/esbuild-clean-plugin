@@ -1,9 +1,9 @@
-import { jest } from '@jest/globals';
 import * as esbuild from 'esbuild';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import { temporaryDirectory } from 'tempy';
-import { cleanPlugin, PluginOptions } from '../src/index.ts';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { cleanPlugin, PluginOptions } from '../src/index.js';
 
 const filesExists = (filePath: string, fileNames: string[]): boolean =>
     fileNames.every((fileName) => {
@@ -47,7 +47,7 @@ describe('esbuild-clean-plugin', () => {
     });
 
     afterEach(async () => {
-        jest.resetAllMocks();
+        vi.resetAllMocks();
 
         await context.dispose();
     });
@@ -116,7 +116,7 @@ describe('esbuild-clean-plugin', () => {
     });
 
     test('Print stats in verbose mode', async () => {
-        const consoleSpy = jest.spyOn(global.console, 'log').mockImplementation(jest.fn());
+        const consoleSpy = vi.spyOn(globalThis.console, 'log').mockImplementation(vi.fn());
 
         context = await setupContext(
             {
@@ -134,7 +134,7 @@ describe('esbuild-clean-plugin', () => {
     });
 
     test("Stops if 'metafile' option isn't supplied", async () => {
-        const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation(jest.fn());
+        const consoleSpy = vi.spyOn(globalThis.console, 'warn').mockImplementation(vi.fn());
 
         context = await setupContext({
             entryPoints: [path.resolve(entryDir, 'a.js')],
@@ -153,7 +153,7 @@ describe('esbuild-clean-plugin', () => {
     });
 
     test("Stops if 'outdir' option isn't supplied", async () => {
-        const consoleSpy = jest.spyOn(global.console, 'warn').mockImplementation(jest.fn());
+        const consoleSpy = vi.spyOn(globalThis.console, 'warn').mockImplementation(vi.fn());
 
         context = await setupContext({
             entryPoints: [path.resolve(entryDir, 'a.js')],
