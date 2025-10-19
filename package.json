@@ -15,7 +15,7 @@
         "dist"
     ],
     "scripts": {
-        "build": "tsc",
+        "build": "tsc -p tsconfig.lib.json",
         "lint": "eslint src test",
         "prepublishOnly": "npm run build",
         "pretest": "npm run lint",
@@ -30,8 +30,8 @@
     "devDependencies": {
         "@jwilsson/eslint-config": "^9.2.1",
         "@jwilsson/prettier-config": "^9.2.1",
-        "@jwilsson/tsconfig": "^3.2.1",
-        "@types/node": "^22.14.1",
+        "@jwilsson/tsconfig": "^9.2.1",
+        "@types/node": "^24.8.1",
         "@vitest/coverage-v8": "^3.1.1",
         "esbuild": "^0.25.0",
         "eslint": "^9.23.0",

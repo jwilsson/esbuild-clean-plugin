@@ -1,0 +1,9 @@
+{
+    "extends": "@jwilsson/tsconfig/tsconfig.json",
+    "compilerOptions": {
+        "erasableSyntaxOnly": true,
+        "incremental": false,
+        "outDir": "dist"
+    },
+    "include": ["src/**/*.ts"]
+}
