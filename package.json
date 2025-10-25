@@ -32,14 +32,14 @@
         "@jwilsson/prettier-config": "^9.2.1",
         "@jwilsson/tsconfig": "^9.2.1",
         "@types/node": "^24.8.1",
-        "@vitest/coverage-v8": "^3.1.1",
+        "@vitest/coverage-v8": "^4.0.3",
         "esbuild": "^0.25.0",
         "eslint": "^9.23.0",
         "prettier": "^3.0.0",
         "simple-git-hooks": "^2.4.1",
         "tempy": "^3.0.0",
         "typescript": "^5.8.2",
-        "vitest": "^3.1.1"
+        "vitest": "^4.0.3"
     },
     "peerDependencies": {
         "esbuild": ">=0.18.20"
