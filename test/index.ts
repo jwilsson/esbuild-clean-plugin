@@ -18,6 +18,10 @@ const writeFile = (filePath: string, fileName: string, data = ''): void => {
     fs.writeFileSync(fileName, data);
 };
 
+const noop = (): void => {
+    // Empty
+};
+
 const setupContext = (
     buildOptions: esbuild.BuildOptions = {},
     pluginOptions?: PluginOptions,
@@ -135,7 +139,7 @@ describe('esbuild-clean-plugin', () => {
     });
 
     test('Print stats in verbose mode', async () => {
-        const consoleSpy = vi.spyOn(globalThis.console, 'log').mockImplementation(vi.fn());
+        const consoleSpy = vi.spyOn(globalThis.console, 'log').mockImplementation(noop);
 
         context = await setupContext(
             {
@@ -153,7 +157,7 @@ describe('esbuild-clean-plugin', () => {
     });
 
     test("Stops if 'metafile' option isn't supplied", async () => {
-        const consoleSpy = vi.spyOn(globalThis.console, 'warn').mockImplementation(vi.fn());
+        const consoleSpy = vi.spyOn(globalThis.console, 'warn').mockImplementation(noop);
 
         context = await setupContext({
             entryPoints: [path.resolve(entryDir, 'a.js')],
@@ -172,7 +176,7 @@ describe('esbuild-clean-plugin', () => {
     });
 
     test("Stops if 'outdir' option isn't supplied", async () => {
-        const consoleSpy = vi.spyOn(globalThis.console, 'warn').mockImplementation(vi.fn());
+        const consoleSpy = vi.spyOn(globalThis.console, 'warn').mockImplementation(noop);
 
         context = await setupContext({
             entryPoints: [path.resolve(entryDir, 'a.js')],

@@ -28,17 +28,17 @@
         "del": "^8.0.0"
     },
     "devDependencies": {
-        "@jwilsson/eslint-config": "^9.2.1",
-        "@jwilsson/prettier-config": "^9.2.1",
-        "@jwilsson/tsconfig": "^9.2.1",
+        "@jwilsson/eslint-config": "^10.0.0",
+        "@jwilsson/prettier-config": "^10.0.0",
+        "@jwilsson/tsconfig": "^10.0.0",
         "@types/node": "^24.8.1",
         "@vitest/coverage-v8": "^4.0.3",
         "esbuild": "^0.25.0",
-        "eslint": "^9.23.0",
+        "eslint": "^10.7.0",
         "prettier": "^3.0.0",
         "simple-git-hooks": "^2.4.1",
         "tempy": "^3.0.0",
-        "typescript": "^5.8.2",
+        "typescript": "^6.0.3",
         "vitest": "^4.0.3"
     },
     "peerDependencies": {

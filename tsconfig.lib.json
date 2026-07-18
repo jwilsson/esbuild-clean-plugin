@@ -3,6 +3,7 @@
     "compilerOptions": {
         "erasableSyntaxOnly": true,
         "incremental": false,
+        "rootDir": "src",
         "outDir": "dist"
     },
     "include": ["src/**/*.ts"]
