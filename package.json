@@ -3,6 +3,9 @@
     "version": "2.1.1",
     "description": "An esbuild plugin to clean your build folder.",
     "author": "Jonathan Wilsson <jonathan.wilsson@gmail.com>",
+    "repository": {
+        "url": "https://github.com/jwilsson/esbuild-clean-plugin"
+    },
     "keywords": [
         "esbuild",
         "plugin",
