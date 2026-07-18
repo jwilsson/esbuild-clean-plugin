@@ -83,6 +83,25 @@ describe('esbuild-clean-plugin', () => {
         expect(filesExists(outDir, FIXTURES)).toBe(false);
     });
 
+    test('Resolves a relative outdir from absWorkingDir', async () => {
+        const relativeOutDir = path.resolve(entryDir, 'dist');
+
+        fs.mkdirSync(relativeOutDir);
+        FIXTURES.forEach((fixture) => {
+            writeFile(relativeOutDir, fixture);
+        });
+
+        context = await setupContext({
+            absWorkingDir: entryDir,
+            entryPoints: ['a.js'],
+            outdir: 'dist',
+        });
+
+        await context.rebuild();
+
+        expect(filesExists(relativeOutDir, FIXTURES)).toBe(false);
+    });
+
     test("Doesn't delete anything if initialCleanPatterns is empty", async () => {
         context = await setupContext(
             {

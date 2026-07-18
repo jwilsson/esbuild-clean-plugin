@@ -52,14 +52,14 @@ export class CleanPlugin {
     }
 
     protected removeFiles(patterns: string[]): void {
-        const { outdir } = this.buildOptions;
+        const outdir = this.resolveOutdir();
 
         if (!outdir) {
             return;
         }
 
         const deletedFiles = deleteSync(patterns, {
-            cwd: path.resolve(process.cwd(), outdir),
+            cwd: outdir,
             dryRun: Boolean(this.pluginOptions.dry),
         });
 
@@ -68,7 +68,7 @@ export class CleanPlugin {
 
     protected printStats(fileNames: string[]): void {
         const { dry, verbose } = this.pluginOptions;
-        const { outdir } = this.buildOptions;
+        const outdir = this.resolveOutdir();
 
         if (!verbose || !outdir) {
             return;
@@ -81,6 +81,17 @@ export class CleanPlugin {
 
             console.log(`esbuild-clean-plugin: ${message} ${fileName}`);
         });
+    }
+
+    private resolveOutdir(): string | undefined {
+        const { absWorkingDir, outdir } = this.buildOptions;
+        let resolvedOutdir: string | undefined;
+
+        if (outdir) {
+            resolvedOutdir = path.resolve(absWorkingDir ?? process.cwd(), outdir);
+        }
+
+        return resolvedOutdir;
     }
 
     public validateOptions(): boolean {
