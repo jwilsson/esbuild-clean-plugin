@@ -46,5 +46,9 @@
     "peerDependencies": {
         "esbuild": ">=0.18.20"
     },
+    "allowScripts": {
+        "esbuild": true,
+        "simple-git-hooks": true
+    },
     "license": "MIT"
 }
